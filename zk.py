@@ -14,3 +14,6 @@ class ZooKepperConnection:
 
     def raw_data(self, path):
         return zookeeper.get(self.handle, self.root + path, None)
+
+    def acl(self, path):
+        return zookeeper.get_acl(self.handle, self.root + path)

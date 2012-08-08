@@ -5,7 +5,7 @@ from zk import ZooKepperConnection
 urls = ('/(.*)', 'node')
 render = web.template.render('templates/')
 
-zkc = ZooKepperConnection("192.168.0.71:2181")
+zkc = ZooKepperConnection("127.0.0.1:2181")
 
 class node:
     def GET(self, url = ""):
@@ -15,8 +15,11 @@ class node:
         data = raw_data[0]
         info = raw_data[1]
         children = zkc.children(name)
-        return render.page(home, name, data, info, children)
+        acl = zkc.acl(name)[1]
+        return render.page(home, name, data, info, children, acl)
 
-app = web.application(urls, globals())
-app.internalerror = web.debugerror
-app.run()
+
+if __name__ == '__main__' :
+    app = web.application(urls, globals())
+    app.internalerror = web.debugerror
+    app.run()
