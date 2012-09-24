@@ -9,6 +9,8 @@ zkc = ZooKepperConnection("127.0.0.1:2181")
 
 class node:
     def GET(self, url = ""):
+        if url.endswith('favicon.ico'):
+            return web.NotFound()
         name = url if not url.endswith('/') else url[:-1]
         home = web.ctx.homedomain + ('/' + name if name != "" else '')
         raw_data = zkc.raw_data(name)
